@@ -59,7 +59,7 @@ double NaviObstacleDecider::GetMinLaneWidth(
     bool ret = reference_line.GetLaneWidth(path_data_point.s(),
                                            &lane_left_width, &lane_right_width);
     if (ret) {
-      double lane_width = lane_left_width + lane_right_width;
+      double lane_width = lane_left_width + lane_right_width;  // 左右两边的宽度
       if (lane_width < min_lane_width) {
         min_lane_width = lane_width;
       }
