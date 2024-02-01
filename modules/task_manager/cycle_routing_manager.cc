@@ -55,6 +55,7 @@ bool CycleRoutingManager::GetNewRouting(
         << ", allowed_to_send_routing_request " << is_allowed_to_route_;
 
   if (is_allowed_to_route_) {
+    // 回到圈起点
     if (CheckPointDistanceInThreshold(begin_point_, pose.position(),
                                       FLAGS_threshold_for_destination_check)) {
       AINFO << "GetNewRouting: reach begin point."
