@@ -63,6 +63,7 @@ bool TaskManagerComponent::Init() {
 }
 
 bool TaskManagerComponent::Proc(const std::shared_ptr<Task>& task) {
+  // task manager只能是cycle_routing
   if (task->task_type() != CYCLE_ROUTING) {
     AERROR << "Task type is not cycle_routing.";
     return false;
