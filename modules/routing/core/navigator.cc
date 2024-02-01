@@ -28,6 +28,7 @@ namespace {
 
 using apollo::common::ErrorCode;
 
+// routing request是proto定义的一个msg
 bool ShowRequestInfo(const routing::RoutingRequest& request,
                      const TopoGraph* graph) {
   for (const auto& wp : request.waypoint()) {
@@ -54,6 +55,7 @@ bool ShowRequestInfo(const routing::RoutingRequest& request,
 
   return true;
 }
+
 
 bool GetWayNodes(const routing::RoutingRequest& request,
                  const TopoGraph* graph,
@@ -151,6 +153,7 @@ bool Navigator::MergeRoute(
   return true;
 }
 
+// 针对topo数据结构搜索，必须得弄明白topo是什么！！！！
 bool Navigator::SearchRouteByStrategy(
     const TopoGraph* graph, const std::vector<const TopoNode*>& way_nodes,
     const std::vector<double>& way_s,
