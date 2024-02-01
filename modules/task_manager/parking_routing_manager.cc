@@ -42,6 +42,8 @@ common::Status ParkingRoutingManager::Init(
 bool ParkingRoutingManager::ConstructParkingRoutingRequest(
     ParkingRoutingTask* parking_routing_task) {
   auto hdmap_ = hdmap::HDMapUtil::BaseMapPtr();
+
+  // 根据id取hdmap中的车位信息
   hdmap::Id id;
   id.set_id(parking_routing_task->routing_request()
                 .parking_info()
@@ -70,6 +72,8 @@ bool ParkingRoutingManager::ConstructParkingRoutingRequest(
   apollo::hdmap::LaneInfoConstPtr nearest_lane;
   double nearest_s;
   double nearest_l;
+
+  // 确定是平行还是垂直停车
   hdmap_->GetNearestLane(center_enu, &nearest_lane, &nearest_s, &nearest_l);
   double lane_heading = nearest_lane->Heading(nearest_s);
   double diff_angle = common::math::AngleDiff(
