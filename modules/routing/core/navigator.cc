@@ -165,6 +165,7 @@ bool Navigator::SearchRouteByStrategy(
   result_nodes->clear();
   std::vector<NodeWithRange> node_vec;
   for (size_t i = 1; i < way_nodes.size(); ++i) {
+    // 一个一个目的地走
     const auto* way_start = way_nodes[i - 1];
     const auto* way_end = way_nodes[i];
     double way_start_s = way_s[i - 1];
