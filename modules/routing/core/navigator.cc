@@ -57,6 +57,7 @@ bool ShowRequestInfo(const routing::RoutingRequest& request,
 }
 
 
+// waypoint至少要照顾一个开始和一个结束点位
 bool GetWayNodes(const routing::RoutingRequest& request,
                  const TopoGraph* graph,
                  std::vector<const TopoNode*>* const way_nodes,
