@@ -33,6 +33,7 @@ using apollo::common::PathPoint;
 DiscretizedPath::DiscretizedPath(std::vector<PathPoint> path_points)
     : std::vector<PathPoint>(std::move(path_points)) {}
 
+// 中心线是拉直来看的
 double DiscretizedPath::Length() const {
   if (empty()) {
     return 0.0;
