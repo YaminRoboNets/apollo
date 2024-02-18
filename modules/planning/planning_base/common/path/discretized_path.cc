@@ -41,9 +41,10 @@ double DiscretizedPath::Length() const {
   return back().s() - front().s();
 }
 
+// path_s 对应的Pathpoint，通过插值得到
 PathPoint DiscretizedPath::Evaluate(const double path_s) const {
   ACHECK(!empty());
-  auto it_lower = QueryLowerBound(path_s);
+  auto it_lower = QueryLowerBound(path_s);  // 找到最近的query iterator
   if (it_lower == begin()) {
     return front();
   }
@@ -51,7 +52,7 @@ PathPoint DiscretizedPath::Evaluate(const double path_s) const {
     return back();
   }
   return common::math::InterpolateUsingLinearApproximation(*(it_lower - 1),
-                                                           *it_lower, path_s);
+                                                           *it_lower, path_s);  // 最近的两个query 求插值
 }
 
 std::vector<PathPoint>::const_iterator DiscretizedPath::QueryLowerBound(
