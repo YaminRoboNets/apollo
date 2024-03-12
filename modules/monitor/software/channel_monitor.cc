@@ -182,6 +182,7 @@ void ChannelMonitor::UpdateStatus(
   const auto reader = reader_message_pair.first;
   const auto message = reader_message_pair.second;
 
+  // 没写进map会不管，记为unknown
   if (reader == nullptr) {
     SummaryMonitor::EscalateStatus(
         ComponentStatus::UNKNOWN,
@@ -190,6 +191,7 @@ void ChannelMonitor::UpdateStatus(
     return;
   }
 
+  // 空消息直接报fatal
   if (message == nullptr || message->ByteSize() == 0) {
     SummaryMonitor::EscalateStatus(
         ComponentStatus::FATAL,
@@ -199,6 +201,7 @@ void ChannelMonitor::UpdateStatus(
   }
 
   // Check channel delay
+  // 延迟超过一个固定数字报fatal
   const double delay = reader->GetDelaySec();
   if (delay < 0 || delay > config.delay_fatal()) {
     SummaryMonitor::EscalateStatus(
@@ -208,6 +211,7 @@ void ChannelMonitor::UpdateStatus(
   }
 
   // Check channel fields
+  // 缺少fields报error
   const std::string field_sepr = ".";
   if (message != nullptr) {
     for (const auto& field : config.mandatory_fields()) {
@@ -220,6 +224,7 @@ void ChannelMonitor::UpdateStatus(
   }
 
   // Check channel frequency
+  // 频率超标现在是报warn，但是我们可能需要报别的
   if (update_freq) {
     if (freq > config.max_frequency_allowed()) {
       SummaryMonitor::EscalateStatus(
