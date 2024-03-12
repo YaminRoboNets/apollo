@@ -70,7 +70,7 @@ ReaderAndMessagePair CreateReaderAndLatestsMessage(const std::string& channel) {
 
 // We have to specify exact type of each channel. This function is a wrapper for
 // those only need a ReaderBase.
-// （名称，（reader，消息））
+// （名称，（reader，消息）），注意没有再reader base里面的无法监控
 ReaderAndMessagePair GetReaderAndLatestMessage(const std::string& channel) {
   static const auto channel_function_map =
       std::unordered_map<std::string, std::function<ReaderAndMessagePair(
@@ -105,7 +105,7 @@ ReaderAndMessagePair GetReaderAndLatestMessage(const std::string& channel) {
            &CreateReaderAndLatestsMessage<drivers::PointCloud>}
           // Add more channels here if you want to monitor.
       };
-
+  
   auto entry = channel_function_map.find(channel);
   if (entry != channel_function_map.end()) {
     return (entry->second)(channel);
