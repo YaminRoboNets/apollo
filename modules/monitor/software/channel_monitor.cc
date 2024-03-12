@@ -59,9 +59,10 @@ using ReaderAndMessagePair =
     std::pair<std::shared_ptr<cyber::ReaderBase>,
               std::shared_ptr<google::protobuf::Message>>;
 
+// 根据string，创建reader，找到reader最新的message
 template <typename T>
 ReaderAndMessagePair CreateReaderAndLatestsMessage(const std::string& channel) {
-  const auto reader = MonitorManager::Instance()->CreateReader<T>(channel);
+  const auto reader = MonitorManager::Instance()->CreateReader<T>(channel); // Monitor Manager必须可以create 相应的reader，我们自己的reader要加入
   reader->Observe();
   const auto message = reader->GetLatestObserved();
   return {reader, message};
@@ -69,6 +70,7 @@ ReaderAndMessagePair CreateReaderAndLatestsMessage(const std::string& channel) {
 
 // We have to specify exact type of each channel. This function is a wrapper for
 // those only need a ReaderBase.
+// （名称，（reader，消息））
 ReaderAndMessagePair GetReaderAndLatestMessage(const std::string& channel) {
   static const auto channel_function_map =
       std::unordered_map<std::string, std::function<ReaderAndMessagePair(
