@@ -96,6 +96,7 @@ void ProcessMonitor::RunOnce(const double current_time) {
   }
 }
 
+// 依然是从dream view里面找到进程需要查找的关键字
 void ProcessMonitor::UpdateStatus(
     const std::vector<std::string>& running_processes,
     const apollo::dreamview::ProcessMonitorConfig& config,
