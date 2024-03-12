@@ -7,6 +7,7 @@ import "modules/common_msgs/basic_msgs/header.proto";
 // Status summary. The value order is important, because when we summarize,
 // larger value will overwrite smaller value:
 //    FATAL > ERROR > WARN > OK > UNKNOWN
+// 部件状态
 message ComponentStatus {
   enum Status {
     UNKNOWN = 0;
@@ -19,6 +20,7 @@ message ComponentStatus {
   optional string message = 2;
 }
 
+// 部件有多个部件状态
 message Component {
   // A summary of all detailed status.
   optional ComponentStatus summary = 1;
@@ -31,6 +33,7 @@ message Component {
   optional ComponentStatus module_status = 6;
 }
 
+// 多个部件状态共同决定系统状态
 message SystemStatus {
   optional apollo.common.Header header = 1;
 
