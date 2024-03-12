@@ -52,14 +52,18 @@ using apollo::common::LatencyReport;
 using apollo::common::LatencyStat;
 using apollo::common::LatencyTrack;
 
+
 LatencyStat GenerateStat(const std::vector<uint64_t>& numbers) {
   LatencyStat stat;
   uint64_t min_number = (1UL << 63), max_number = 0, sum = 0;
+  // 找到运行时间最大值，最小值，运行时间之和
   for (const auto number : numbers) {
     min_number = std::min(min_number, number);
     max_number = std::max(max_number, number);
     sum += number;
   }
+
+  // 将最大值最小值平均值赋给stat
   const uint32_t sample_size = static_cast<uint32_t>(numbers.size());
   stat.set_min_duration(min_number);
   stat.set_max_duration(max_number);
@@ -76,6 +80,7 @@ void SetStat(const LatencyStat& src, LatencyStat* dst) {
   dst->set_sample_size(src.sample_size());
 }
 
+// 增加需要监控latancy的模块
 void SetLatency(const std::string& latency_name,
                 const std::vector<uint64_t>& latency_values,
                 LatencyTrack* track) {
@@ -85,6 +90,7 @@ void SetLatency(const std::string& latency_name,
 }
 
 }  // namespace
+
 
 LatencyMonitor::LatencyMonitor()
     : RecurrentRunner(FLAGS_latency_monitor_name,
@@ -97,6 +103,7 @@ void LatencyMonitor::RunOnce(const double current_time) {
   reader->SetHistoryDepth(FLAGS_latency_reader_capacity);
   reader->Observe();
 
+  
   static std::string last_processed_key;
   std::string first_key_of_current_round;
   for (auto it = reader->Begin(); it != reader->End(); ++it) {
