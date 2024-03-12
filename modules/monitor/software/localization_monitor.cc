@@ -58,6 +58,7 @@ void LocalizationMonitor::RunOnce(const double current_time) {
 
   ComponentStatus* component_status = component->mutable_other_status();
   component_status->clear_status();
+  // 没有返回status给error
   if (status == nullptr) {
     SummaryMonitor::EscalateStatus(ComponentStatus::ERROR,
                                    "No LocalizationStatus received",
