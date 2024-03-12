@@ -70,7 +70,7 @@ ReaderAndMessagePair CreateReaderAndLatestsMessage(const std::string& channel) {
 
 // We have to specify exact type of each channel. This function is a wrapper for
 // those only need a ReaderBase.
-// （名称，（reader，消息）），注意没有再reader base里面的无法监控
+// （名称，（reader，消息）），注意没有再reader base里面的无法监控,所以要写进这里
 ReaderAndMessagePair GetReaderAndLatestMessage(const std::string& channel) {
   static const auto channel_function_map =
       std::unordered_map<std::string, std::function<ReaderAndMessagePair(
@@ -115,6 +115,7 @@ ReaderAndMessagePair GetReaderAndLatestMessage(const std::string& channel) {
   return {nullptr, nullptr};
 }
 
+// 确认消息
 bool ValidateFields(const google::protobuf::Message& message,
                     const std::vector<std::string>& fields,
                     const size_t field_step) {
@@ -161,8 +162,10 @@ void ChannelMonitor::RunOnce(const double current_time) {
     const auto& config = iter.second;
     if (config.has_channel()) {
       double freq;
+      // 计算 frequency
       const auto update_freq =
           latency_monitor_->GetFrequency(config.channel().name(), &freq);
+      // 
       UpdateStatus(config.channel(),
                    components->at(name).mutable_channel_status(), update_freq,
                    freq);
