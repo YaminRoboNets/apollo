@@ -58,6 +58,7 @@ void ModuleMonitor::RunOnce(const double current_time) {
   }
 }
 
+// 监控列表需要去dreamview里面拿
 void ModuleMonitor::UpdateStatus(
     const apollo::dreamview::ModuleMonitorConfig& config,
     const std::string& module_name, ComponentStatus* status) {
